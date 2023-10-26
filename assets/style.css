@@ -1,0 +1,26 @@
+.title {
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    /* This ensures they're on the same y-axis plane */
+    /* justify-content: start; */
+    /* Align items to the start of the container */
+    /* gap: 10px; */
+    padding: 10px 10px;
+    /* Space between logo and title */
+    background-color: #1B3139;
+}
+
+
+.title {
+    margin: 0;
+    /* Remove default margins */
+    /* Any other styles you want for the title */
+}
+
+.subtitle {
+    padding-left: 30%;
+}
