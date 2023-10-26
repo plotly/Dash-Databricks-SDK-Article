@@ -94,13 +94,7 @@ app.layout = html.Div(
         ),
         # Control Panel
         html.Div(
-            style={
-                "marginTop": "2em",
-                "border": "1px solid #e5e5e5",
-                "padding": "1em",
-                "borderRadius": "5px",
-                "backgroundColor": "#F9F7F4",
-            },
+            className="control-panel",
             children=[
                 dmc.LoadingOverlay(
                     id="loading-form",
@@ -114,29 +108,17 @@ app.layout = html.Div(
                         dmc.Title(
                             className="subtitle",
                             order=6,
-                            children=(
-                                [
-                                    '1. Use the "States" dropdown to filter to a specific state\'s training data',
-                                ]
-                            ),
+                            children='1. Use the "States" dropdown to filter to a specific state\'s training data',
                         ),
                         dmc.Title(
                             className="subtitle",
                             order=6,
-                            children=(
-                                [
-                                    '2. Use the "Forecast" field to determine how many days the Prophet forecasting model should guess ahead',
-                                ]
-                            ),
+                            children='2. Use the "Forecast" field to determine how many days the Prophet forecasting model should guess ahead',
                         ),
                         dmc.Title(
                             className="subtitle",
                             order=6,
-                            children=(
-                                [
-                                    '3. When you are happy with your inputs, press "Run Job" below and wait for the Plotly widget to appear',
-                                ]
-                            ),
+                            children='3. When you are happy with your inputs, press "Run Job" below and wait for the Plotly widget to appear',
                         ),
                         dmc.Space(h=30),
                         dmc.Group(
@@ -174,12 +156,6 @@ app.layout = html.Div(
                 html.Div(
                     id="forecast-plot",
                     children="No graph loaded yet",
-                    style={
-                        "width": "100%",
-                        "height": "100%",
-                        "text-align": "center",
-                        "align-items": "center",
-                    },
                 )
             ]
         ),
@@ -197,13 +173,21 @@ app.layout = html.Div(
     prevent_initial_callback=True,
 )
 def invoke_jobs_api(state, forecast_days, n_clicks):
+    # Null check - prevents app from kicking off a job using dash hot-reloading during dev.
     if n_clicks == 0:
         return no_update, no_update
+
+    # Initialize Databricks SDK client. Will search for cluster credentials in /.databrickscfg
     w = WorkspaceClient()
 
+    # Pass parameters from dash into the Databricks notebook.
     params_from_dash = {"us-state": state, "forecast-forward-days": forecast_days}
 
+    # Location of the Databricks notebook on your Databricks Instance.
+    #  Replace this with your notebook name
     notebook_path = f"/Users/{w.current_user.me().user_name}/Jobs API Article Test"
+
+    # Spin up cluster if it's down. If your config isn't working correctly, output error msg.
     try:
         w.clusters.ensure_cluster_is_running(os.environ["DATABRICKS_CLUSTER_ID"])
     except:
@@ -211,6 +195,7 @@ def invoke_jobs_api(state, forecast_days, n_clicks):
             "Your connection to databricks isn't configured correctly. Revise your /.databrickscfg file"
         )
 
+    # Configure our Databricks job to
     created_job = w.jobs.create(
         name=f"sdk-{time.time_ns()}",
         tasks=[
@@ -225,6 +210,8 @@ def invoke_jobs_api(state, forecast_days, n_clicks):
             )
         ],
     )
+
+    # Run the Databricks Job on your cluster.
     w.jobs.run_now(job_id=created_job.job_id).result()
 
     fig_bytes = w.dbfs.read("/tmp/forecast_plot.json")
@@ -242,44 +229,6 @@ def invoke_jobs_api(state, forecast_days, n_clicks):
 
     # Convert the dictionary to a Plotly Figure
     fig = go.Figure(fig_data)
-
-    fig.update_layout(
-        autosize=True,
-        width=None,  # removing hardcoded width
-        height=None,  # removing hardcoded height
-    )
-
-    fig.update_layout(
-        # White background
-        plot_bgcolor="#F9F7F4",
-        paper_bgcolor="#F9F7F4",
-        # Titles and fonts
-        title="Forecast Results",
-        title_font=dict(size=24, family="Arial, sans-serif", color="#1B3139"),
-        # Axis labels
-        xaxis=dict(
-            title="Number of product units",
-            titlefont=dict(size=18, color="#1B3139"),
-            showgrid=True,
-            gridcolor="lightgrey",
-            gridwidth=0.5,
-            zerolinecolor="lightgrey",
-            zerolinewidth=0.5,
-            tickfont=dict(size=14, color="#1B3139"),
-        ),
-        yaxis=dict(
-            title="Order date",
-            titlefont=dict(size=18, color="#1B3139"),
-            showgrid=True,
-            gridcolor="lightgrey",
-            gridwidth=0.5,
-            zerolinecolor="lightgrey",
-            zerolinewidth=0.5,
-            tickfont=dict(size=14, color="#1B3139"),
-        ),
-        # Legend styling
-        legend=dict(font=dict(size=14, color="grey")),
-    )
 
     # print(notebook_path, cluster_id)
     return no_update, dcc.Graph(
