@@ -4,6 +4,8 @@
 
 ____.medium.com
 
+![jobsapi](https://github.com/plotly/Databricks-Dash-SDK-Article/assets/49540501/1895b720-0974-4a07-8273-2ed152a5a871)
+
 ## Background
 This article utilizes the Databricks SDK in tandem with dash to invoke the Databricks Jobs API. The Databricks notebook runs a forecasting model, then outputs and returns the forecast Plotly chart to the dash app.
 
@@ -17,3 +19,5 @@ This article utilizes the Databricks SDK in tandem with dash to invoke the Datab
 6. If the notebook title is modified, update constants.py to reflect the new name with the **notebook_name** python variable.
 7. run **pip install -r requirements.txt**
 8. run **app.py**
+
+
