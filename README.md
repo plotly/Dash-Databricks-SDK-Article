@@ -6,7 +6,8 @@ ____.medium.com
 
 ## App Preview
 
-![jobsapi](https://github.com/plotly/Databricks-Dash-SDK-Article/assets/49540501/1895b720-0974-4a07-8273-2ed152a5a871)
+![jobsapi](https://github.com/plotly/Dash-Databricks-SDK-Article/assets/49540501/86dba58a-87a2-4c15-9064-20f27a443cfb)
+
 
 ## Background
 In short, the purpose of this project is to demonstrate how Plotly's Dash can be utilized in tandem with the Databricks SDK. More specifically, here we choose to kick off and parameterize a Databricks notebook from a dash application, either running locally, on Heroku, or on Dash Enterprise.
