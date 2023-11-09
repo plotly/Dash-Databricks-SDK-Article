@@ -2,7 +2,7 @@
 
 ## Links 
 
-https://plotlygraphs.medium.com/databricks-sdk-plotly-dash-the-easiest-way-to-get-jobs-done-70d44e1cd9c3
+[Medium Article](https://plotlygraphs.medium.com/databricks-sdk-plotly-dash-the-easiest-way-to-get-jobs-done-70d44e1cd9c3)
 
 ## App Preview
 
@@ -12,7 +12,7 @@ https://plotlygraphs.medium.com/databricks-sdk-plotly-dash-the-easiest-way-to-ge
 ## Background
 In short, the purpose of this project is to demonstrate how Plotly's Dash can be utilized in tandem with the Databricks SDK. More specifically, here we choose to kick off and parameterize a Databricks notebook from a dash application, either running locally, on Heroku, or on Dash Enterprise.
 
-For more information on background and our joint story, please [our associated Medium article](medium.com).
+For more information on background and our joint story, please visit our Databricks + [Plotly Dash Partner page](https://plotly.com/dash/databricks-integration/).
 
 For information on how to get started, see the below instruction set.
 
