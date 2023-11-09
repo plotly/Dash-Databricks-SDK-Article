@@ -2,7 +2,7 @@
 
 ## Links 
 
-____.medium.com
+https://plotlygraphs.medium.com/databricks-sdk-plotly-dash-the-easiest-way-to-get-jobs-done-70d44e1cd9c3
 
 ## App Preview
 
